@@ -6,18 +6,18 @@
 
 /**
  * 判断传入数据类型
- * typeOf({})  'object'
- * typeOf([])           === 'array'
- * typeOf('')           === 'string'
- * typeOf(.1)           === 'number'
- * typeOf(false)        === 'boolean'
- * typeOf(null)         === 'null'
- * typeOf()             === 'undefined'
- * typeOf(undefined)    === 'undefined'
- * typeOf(/x/)          === 'regexp'
- * typeOf(function(){}) === 'function'
- * typeOf(Symbol())     === 'symbol'
- * typeOf(Symbol())     === 'symbol'
+ * typeOf({}) => 'object'
+ * typeOf([]) => 'array'
+ * typeOf('') => 'string'
+ * typeOf(.1) => 'number'
+ * typeOf(/x/) => 'regexp'
+ * typeOf(null) => 'null'
+ * typeOf() => 'undefined'
+ * typeOf(undefined) => 'undefined'
+ * typeOf(false) => 'boolean'
+ * typeOf(Symbol()) => 'symbol'
+ * typeOf(Symbol()) => 'symbol'
+ * typeOf(function(){}) =. 'function'
  */
 function typeOf(obj) {
 	return Object.prototype.toString.call(obj).match(/^\[.* (.*)\]$/)[1].toLowerCase();
