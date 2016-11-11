@@ -32,3 +32,11 @@ function typeOf(obj) {
 function getTimestamp() {
 	return +new Date();
 }
+
+/**
+ * 获取随机颜色
+ * return String
+ */
+function randColor() {
+	return "#" + ( ~~( Math.random() * ( 1 << 24 ) ) ).toString(16);
+}
