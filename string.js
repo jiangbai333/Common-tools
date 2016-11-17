@@ -5,6 +5,35 @@
  */
 `use strict`
 
+String.prototype.format = function(param) {
+    var type = typeof param,
+        date;
+    
+    if ( "number" === type ) {
+        date = new Date(+new Date + param * 60 * 60 * 1000)
+    } else {
+        date = new Date(parseInt(param.replace(/^((start)|(end)|(-?\d*month)|(-?\d*year))$/i, function($0, $1, $2, $3, $4, $5) {
+            var temp = new Date();
+            if ( $2 ) {
+                temp.setHours(0), temp.setMinutes(0), temp.setSeconds(0), temp.setMilliseconds(0);
+            } else if ( $3 ) {
+                temp.setHours(23), temp.setMinutes(59), temp.setSeconds(59), temp.setMilliseconds(999);
+            } else if ( $4 ) {
+                var num = parseInt($4);
+                temp.setMonth(temp.getMonth() + num);
+            } else if ( $5 ) {
+                var num = parseInt($5);
+                temp.setFullYear(temp.getFullYear() + num);
+            }
+            
+            return +temp;
+        })));
+        
+    }
+
+    console.log(date)
+}
+
 String.prototype.engine = function($) {
     
     return (function(context, $, callback) {
