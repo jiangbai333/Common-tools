@@ -13,31 +13,24 @@ String.prototype.engine = function($) {
         
             /** 模板变量键值类型：true{String},false{Object|Array...} */
             valueType = (function ($) {
-                
                 for (var o in $) {
                     if ("object" === typeof $[o] || "array" === typeof $[o]) {
                         return false;
                     }
                 }
-                
                 return true;
             })($),
-            
             reg = /(\\)?\{\$([^\{\}\\]+)?\}/g,
-            
             rt = new Array();
             
         if ( "array" === tempType && !valueType) {
-            
             for (var o in $) {
                 rt.push(callback(context, $[o], reg));
             }
-            
             rt = rt.toString().replace(/,/g, "");
         } else {
             rt = callback(context, $, reg);
         }
-        
         return rt;
     })(this, $, function(c, t, r) {
         
@@ -49,7 +42,6 @@ String.prototype.engine = function($) {
                 /** 按所属关系分割模板变量 */
                 var $4 = $2.replace(/\s/g, '').split('.'),
                     $5 = t;
-                
                 /** 循环解析模板变量 */
                 for ( var $6 in $4 ) {
                     $5 = $5[$4[$6]];
@@ -57,7 +49,6 @@ String.prototype.engine = function($) {
                         return '';
                     }
                 }
-
                 return $5;
             }
         })
