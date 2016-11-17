@@ -15,9 +15,7 @@ String.prototype.engine = function($) {
             valueType = (function ($) {
                 
                 for (var o in $) {
-                    
                     if ("object" === typeof $[o] || "array" === typeof $[o]) {
-                        
                         return false;
                     }
                 }
@@ -32,13 +30,11 @@ String.prototype.engine = function($) {
         if ( "array" === tempType && !valueType) {
             
             for (var o in $) {
-                
                 rt.push(callback(context, $[o], reg));
             }
             
             rt = rt.toString().replace(/,/g, "");
         } else {
-            
             rt = callback(context, $, reg);
         }
         
@@ -48,7 +44,6 @@ String.prototype.engine = function($) {
         return c.replace(r, function($0, $1, $2, $3) {
             /** 如果以\\{$.*}作为占位符, 则不进行替换 */
             if ( $1 ) {
-                
                 return $0.replace('\\', '');
             } else {
                 /** 按所属关系分割模板变量 */
@@ -57,11 +52,8 @@ String.prototype.engine = function($) {
                 
                 /** 循环解析模板变量 */
                 for ( var $6 in $4 ) {
-                    
                     $5 = $5[$4[$6]];
-                    
                     if ( $5 === undefined || $5 === null ) {
-                        
                         return '';
                     }
                 }
