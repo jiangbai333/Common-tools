@@ -51,6 +51,6 @@ String.prototype.engine = function($) {
                 }
                 return $5;
             }
-        })
+        });
     })
 }
