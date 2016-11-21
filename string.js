@@ -28,9 +28,27 @@ String.prototype.format = function(param) {
             
             return +temp;
         })));
-        
     }
-
+    
+    if ( this === "timestamp" ) {
+        return +date;
+    } else {
+        var tmp = {
+            "Y" : date.getFullYear(),
+            "y" : date.getFullYear() - 2000,
+            "M" : (function(M) {return M < 10 ? "0" + M : M;})(date.getMonth() + 1),
+            "m" : date.getMonth() + 1,
+            "D" : (function(D) {return D < 10 ? "0" + D : D;})(date.getDate()),
+            "d" : date.getDate(),
+            "H" : (function(H) {return H < 10 ? "0" + H : H;})(date.getHours()),
+            "h" : date.getHours(),
+            "F" : (function(F) {return F < 10 ? "0" + F : F;})(date.getMinutes()),
+            "f" : date.getMinutes(),
+            "S" : (function(S) {return S < 10 ? "0" + S : S;})(date.getSeconds()),
+            "s" : date.getSeconds(),
+            "ms": date.getMilliseconds()
+        };
+    }
     console.log(date)
 }
 
