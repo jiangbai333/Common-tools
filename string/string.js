@@ -15,12 +15,10 @@
  */
 String.prototype.format = function(param) {
     var type = typeof param,
-        reg = "^((start)|(end)|(-?\\d*month)|(-?\\d*year))$",
+        reg = "^((start)|(end)|(-?\\d*month)|(-?\\d*year)|(-?\\d{1,9})|(\\d{10})|(\\d{13}))$",
         date;
     
-    if ( "number" === type ) {
-        date = new Date(+new Date + param * 60 * 60 * 1000)
-    } else if (new RegExp(reg, "i").test(param)) {
+    if (new RegExp(reg, "i").test(param)) {
         var temp = new Date();
         if ( RegExp.$2 ) {
             temp.setHours(0), temp.setMinutes(0), temp.setSeconds(0), temp.setMilliseconds(0);
@@ -32,11 +30,21 @@ String.prototype.format = function(param) {
         } else if ( RegExp.$5 ) {
             var num = parseInt(RegExp.$5);
             temp.setFullYear(temp.getFullYear() + num);
+        } else if ( RegExp.$6 ) {
+            var num = parseInt(RegExp.$6);
+            temp = new Date(+new Date + num * 60 * 60 * 1000);
+        } else if ( RegExp.$7 ) {
+            var num = parseInt(RegExp.$7) * 1000;
+            temp = new Date(num);
+        } else if ( RegExp.$8 ) {
+            var num = parseInt(RegExp.$8);
+            temp = new Date(num);
+        } else {
+            //
         }
-        
         date = temp;
     } else {
-        return this.valueOf();
+        date = new Date();
     }
     
     if ( this === "timestamp" ) {
