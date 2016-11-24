@@ -47,7 +47,7 @@ String.prototype.format = function(param) {
         date = new Date();
     }
     
-    if ( this === "timestamp" ) {
+    if ( this.valueOf() === "timestamp" ) {
         return +date;
     } else {
         var dec = {
