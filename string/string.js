@@ -6,12 +6,30 @@
 `use strict`
 
 /**
+ *      url 解构方法
+ */
+String.prototype.url = function() {
+    location.query = (function (param) {
+        var temp = {};
+
+        if (param.indexOf("?") != -1) {
+            var queryString = param.substr(1);
+            querys = queryString.split("&");
+            for(var i = 0; i < querys.length; i ++) {
+                temp[querys[i].split("=")[0]]=decodeURI(querys[i].split("=")[1]);
+            }
+        }
+
+        return temp;
+    })(location.search)
+    
+    return (typeof location[this.valueOf()] === "function") ? (location[this.valueOf()])() : location[this.valueOf()];
+}
+
+/**
  *      返回被格式化的日期或时间戳
  * @param param int|String "start"|"end"|"Nmonth"|"Nyear"(N为任意整数)
  * @return String|int
- * @example
- *  "Y年M月D日 H:F:S-ms".format("start"); //2016年11月22日 00:00:00-0
- *  "Y-M-D H:F:S-ms".format("end"); //2016-11-22 23:59:59-999
  */
 String.prototype.format = function(param) {
     var type = typeof param,
@@ -47,35 +65,28 @@ String.prototype.format = function(param) {
         date = new Date();
     }
     
-    if ( this.valueOf() === "timestamp" ) {
-        return +date;
-    } else {
-        var dec = {
-            "Y" : date.getFullYear(),
-            "y" : date.getFullYear() - 2000,
-            "M" : (function(M) {return M < 10 ? "0" + M : M;})(date.getMonth() + 1),
-            //"m" : date.getMonth() + 1,
-            "D" : (function(D) {return D < 10 ? "0" + D : D;})(date.getDate()),
-            //"d" : date.getDate(),
-            "H" : (function(H) {return H < 10 ? "0" + H : H;})(date.getHours()),
-            //"h" : date.getHours(),
-            "F" : (function(F) {return F < 10 ? "0" + F : F;})(date.getMinutes()),
-            //"f" : date.getMinutes(),
-            "S" : (function(S) {return S < 10 ? "0" + S : S;})(date.getSeconds()),
-            //"s" : date.getSeconds(),
-            "ms": date.getMilliseconds()
-        };
-        
-        var str = this.valueOf();
-        
-        for ( var o in dec ) {
-            if (new RegExp("(" + o + ")").test(str)) {
-                str = str.replace(RegExp.$1, dec[o])
-            }
+    var dec = {
+        "Y" : date.getFullYear(),
+        "y" : date.getFullYear() - 2000,
+        "M" : (function(M) {return M < 10 ? "0" + M : M;})(date.getMonth() + 1),
+        "D" : (function(D) {return D < 10 ? "0" + D : D;})(date.getDate()),
+        "H" : (function(H) {return H < 10 ? "0" + H : H;})(date.getHours()),
+        "F" : (function(F) {return F < 10 ? "0" + F : F;})(date.getMinutes()),
+        "S" : (function(S) {return S < 10 ? "0" + S : S;})(date.getSeconds()),
+        "ms": date.getMilliseconds(),
+        "long-stamp" : +date,
+        "short-stamp" : 0 | date / 1000
+    };
+    
+    var str = this.valueOf();
+    
+    for ( var o in dec ) {
+        if (new RegExp("(" + o + ")").test(str)) {
+            str = str.replace(RegExp.$1, dec[o])
         }
-        date = str;
     }
-    return date;
+    
+    return str;
 }
 
 String.prototype.engine = function($) {
