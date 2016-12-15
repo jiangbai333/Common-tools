@@ -18,8 +18,12 @@ function model() {
     
 }
 
+model.prototype._ajaxSuccessCallback = function (data) {
+	console.log(this)
+} 
+
 model.prototype.ajax = function(type, url, data, success, failed) {
-    var xhr = null;
+    var xhr = null, _self = this;
     if(window.XMLHttpRequest){
         xhr = new XMLHttpRequest();
     } else {
@@ -53,7 +57,7 @@ model.prototype.ajax = function(type, url, data, success, failed) {
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4){
             if(xhr.status == 200){
-                success(xhr.responseText);
+                this._ajaxSuccessCallback(xhr.responseText);
             } else {
                 if(failed){
                     failed(xhr.status);
