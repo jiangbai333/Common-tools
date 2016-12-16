@@ -15,15 +15,39 @@ controller.prototype.query = function(selector = "body") {
 
 
 function model() {
-    
+	this._responseText = "";
+	this._responseDate = undefined; 
+}
+
+model.prototype.getResponseText = function() {
+	return this._responseText;
+}
+
+model.prototype.getResponseData = function() {
+	return this._responseDate;
 }
 
 model.prototype._ajaxSuccessCallback = function (data) {
-	console.log(this)
+	
+	this._responseText = data;
+	this._responseDate = JSON.parse(data);
+	console.log("未指定回调函数, 此次请求结果为:" + this._responseText);
+	
 } 
 
-model.prototype.ajax = function(type, url, data, success, failed) {
-    var xhr = null, _self = this;
+model.prototype._ajaxFailedCallback = function (data) {
+	console.log(this, data);
+}
+ 
+model.prototype.ajax = function({
+	type = "GET",
+	url =　undefined,
+	data = {},
+	success = this._ajaxSuccessCallback,
+	failed = this._ajaxFailedCallback
+}) {
+	console.log(type, url, data, success, failed);
+    var xhr = null;
     if(window.XMLHttpRequest){
         xhr = new XMLHttpRequest();
     } else {
@@ -57,7 +81,7 @@ model.prototype.ajax = function(type, url, data, success, failed) {
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4){
             if(xhr.status == 200){
-                this._ajaxSuccessCallback(xhr.responseText);
+                success(xhr.responseText);
             } else {
                 if(failed){
                     failed(xhr.status);

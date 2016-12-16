@@ -8,12 +8,8 @@ console.log((new controller()).query("#test").view);
 var m = new model();
 
 m.ajax(
-	"get",
-	"index.php",
-	{},
-	function(d) {
-		d = JSON.parse(d);	
-		console.log(d);
-	}
-);
+	{type:"get",
+	url:"index.php",
+	data:{},
+});
 </script>
