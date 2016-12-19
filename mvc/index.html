@@ -7,13 +7,15 @@
 console.log((new controller()).query("#test").view);
 var m = new model();
 
-m.ajax({
+var rt = m.ajax({
     type : "get",
 	url : "index.php",
 	data : {},
 	success : function(d) {
-		console.log(d);	
+		console.log(d);
 	},
     dataType:"json"
 });
+
+console.log(rt._responseText);
 </script>
