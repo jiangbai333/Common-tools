@@ -11,5 +11,9 @@ m.ajax(
 	{type:"get",
 	url:"index.php",
 	data:{},
+	success: function(d) {
+		console.log(d);	
+	},
+    dataType:"json"
 });
 </script>

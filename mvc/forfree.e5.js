@@ -15,39 +15,37 @@ controller.prototype.query = function(selector = "body") {
 
 
 function model() {
-	this._responseText = "";
-	this._responseDate = undefined; 
+    this._response = undefined;
+    this._responseText = "";
+    this._responseDate = undefined; 
 }
 
 model.prototype.getResponseText = function() {
-	return this._responseText;
+    return this._responseText;
 }
 
 model.prototype.getResponseData = function() {
-	return this._responseDate;
+    return this._responseDate;
 }
 
 model.prototype._ajaxSuccessCallback = function (data) {
-	
-	this._responseText = data;
-	this._responseDate = JSON.parse(data);
-	console.log("未指定回调函数, 此次请求结果为:" + this._responseText);
+    console.log("未指定回调函数, 此次请求结果为:" + this._responseText);
 	
 } 
 
 model.prototype._ajaxFailedCallback = function (data) {
-	console.log(this, data);
+    console.log(data);
 }
  
 model.prototype.ajax = function({
-	type = "GET",
-	url =　undefined,
-	data = {},
-	success = this._ajaxSuccessCallback,
-	failed = this._ajaxFailedCallback
+    type = "GET",
+    url =　undefined,
+    data = {},
+    success = this._ajaxSuccessCallback,
+    failed = this._ajaxFailedCallback,
+    dataType = "json"
 }) {
-	console.log(type, url, data, success, failed);
-    var xhr = null;
+    var xhr = null, _that = this;
     if(window.XMLHttpRequest){
         xhr = new XMLHttpRequest();
     } else {
@@ -80,11 +78,15 @@ model.prototype.ajax = function({
 
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4){
+            _that._response = xhr;
             if(xhr.status == 200){
-                success(xhr.responseText);
+                _that._responseText = xhr.responseText;
+                _that._responseDate = JSON.parse(xhr.responseText);
+                success.call(_that, dataType === "json" ? 
+                    _that._responseDate : _that._responseText);
             } else {
                 if(failed){
-                    failed(xhr.status);
+                    failed.call(_that, xhr);
                 }
             }
         }
