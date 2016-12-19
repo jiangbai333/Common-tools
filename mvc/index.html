@@ -7,11 +7,11 @@
 console.log((new controller()).query("#test").view);
 var m = new model();
 
-m.ajax(
-	{type:"get",
-	url:"index.php",
-	data:{},
-	success: function(d) {
+m.ajax({
+    type : "get",
+	url : "index.php",
+	data : {},
+	success : function(d) {
 		console.log(d);	
 	},
     dataType:"json"

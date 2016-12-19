@@ -46,7 +46,7 @@ model.prototype.ajax = function({
     dataType = "json"
 }) {
     var xhr = null, _that = this;
-    if(window.XMLHttpRequest){
+    if ( window.XMLHttpRequest ) {
         xhr = new XMLHttpRequest();
     } else {
         xhr = new ActiveXObject('Microsoft.XMLHTTP')
@@ -54,38 +54,38 @@ model.prototype.ajax = function({
  
     var type = type.toUpperCase();
  
-    if(typeof data == 'object'){
+    if ( typeof data == 'object' ) {
         var str = '';
-        for(var key in data){
-            str += key+'='+data[key]+'&';
+        for (var key in data) {
+            str += key + '=' + data[key] + '&';
         }
         data = str.replace(/&$/, '');
     }
  
-    if(type == 'GET'){
-        if(data){
+    if ( type == 'GET' ) {
+        if ( data ) {
             xhr.open('GET', url + '?' + data, true);
         } else {
             xhr.open('GET', url + '?t=' + Math.random(), true);
         }
         xhr.send();
  
-    } else if(type == 'POST'){
+    } else if ( type == 'POST' ) {
         xhr.open('POST', url, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(data);
     }
 
     xhr.onreadystatechange = function(){
-        if(xhr.readyState == 4){
+        if ( xhr.readyState == 4 ) {
             _that._response = xhr;
-            if(xhr.status == 200){
+            if ( xhr.status == 200 ) {
                 _that._responseText = xhr.responseText;
                 _that._responseDate = JSON.parse(xhr.responseText);
                 success.call(_that, dataType === "json" ? 
                     _that._responseDate : _that._responseText);
             } else {
-                if(failed){
+                if ( failed ) {
                     failed.call(_that, xhr);
                 }
             }
