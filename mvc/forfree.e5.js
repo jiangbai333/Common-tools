@@ -1,4 +1,4 @@
-window.requestAnimationFrame(drawFrame);
+//window.requestAnimationFrame(drawFrame);
 
 if (!window.requestAnimationFrame) {
     window.requestAnimationFrame = (window.webkitRequestAnimationFrame ||   
@@ -23,8 +23,11 @@ if (!window.cancelAnimationFrame) {
                                    window.clearTimeout);
 }
 
-function controller() {
+window.cRAM = {};
+
+function controller(cName = "c" + +new Date()) {
     this.id = "c" + +new Date();
+    window.cRAM[cName] = this;
     this._views = [];
     this.views = [];
 }
@@ -35,7 +38,9 @@ controller.prototype.query = function(selector = "body") {
     return this;
 }
 
-
+controller.prototype.band = function(callback) {
+    callback.call(this, this.views);
+}
 
 
 

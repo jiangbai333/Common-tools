@@ -1,21 +1,40 @@
 <meta charset="UTF-8">
 <script src="./forfree.e5.js"></script>
-
-<span id="test" band="test"></span>
+<style>
+#test {
+    width : 100%;
+    height : 10%;
+    display : block;
+    background : blue;
+}
+</style>
+<span id="test" band="test">
+    <p id="test-p1"></p>
+    <p id="test-p2"></p>
+    <p id="test-p3"></p>
+    <p id="test-p4"></p>
+</span>
 
 <script>
-console.log((new controller()).query("#test").view);
-var m = new model();
+window.onload = function() {
+    //console.log((new controller()).query("#test").views);
+    console.log((new controller()).query("#test").band(function(d) {
+        console.log(this, d);
+    }));
+    var m = new model();
 
-var rt = m.ajax({
-    type : "get",
-	url : "index.php",
-	data : {},
-	success : function(d) {
-		console.log(d);
-	},
-    dataType:"json"
-});
+    var rt = m.ajax({
+        type : "get",
+	    url : "index.php",
+	    data : {},
+	    success : function(d) {
+		    console.log(d);
+	    },
+        dataType:"json"
+    });
 
-console.log(rt._responseText);
+    console.log(rt._responseText);
+
+}
+
 </script>
