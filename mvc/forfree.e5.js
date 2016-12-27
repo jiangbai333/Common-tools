@@ -30,6 +30,7 @@ function controller(cName = "c" + +new Date()) {
     window.cRAM[cName] = this;
     this._views = [];
     this.views = [];
+    this.model = undefined;
 }
 
 controller.prototype.query = function(selector = "body") {
@@ -38,7 +39,49 @@ controller.prototype.query = function(selector = "body") {
     return this;
 }
 
+controller.prototype.M = function({
+    type = "GET",
+    url = undefined,
+    data = {},
+}) {
+    var _this = this;
+    try {
+        if (url === undefined) {
+            throw "You must give an url";
+        } else {
+            this.model = new model();
+
+            (function req(context) {
+                window.setTimeout(req, 1000);
+                _this.model.ajax({
+                    type : type,
+	                url : url,
+	                data : data,
+	                success : function(d) {
+		                for (let o in d) {
+                            _this.views.forEach(function (value) {
+                                var tempBand = [...value.querySelectorAll("[band='" + o + "']")];
+                                tempBand.forEach(function(value) {
+                                    value.innerHTML = d[o];
+                                });
+                            });
+                        }
+	                }
+                })
+            })(this);
+        }
+    } catch(e) {
+        console.log(e);
+    }
+
+    return this;
+}
+
 controller.prototype.band = function(callback) {
+    var models = {};
+    this.views.forEach(function(d, i) {
+        console.log(d, i);    
+    });
     callback.call(this, this.views);
 }
 
@@ -69,7 +112,7 @@ model.prototype._ajaxFailedCallback = function (data) {
  
 model.prototype.ajax = function({
     type = "GET",
-    url =　undefined,
+    url = undefined,
     data = {},
     success = this._ajaxSuccessCallback,
     failed = this._ajaxFailedCallback,

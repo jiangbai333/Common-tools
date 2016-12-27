@@ -9,8 +9,8 @@
 }
 </style>
 <span id="test" band="test">
-    <p id="test-p1"></p>
-    <p id="test-p2"></p>
+    <p id="test-p1" band="a"></p>
+    <p id="test-p2" band="b"></p>
     <p id="test-p3"></p>
     <p id="test-p4"></p>
 </span>
@@ -18,12 +18,17 @@
 <script>
 window.onload = function() {
     //console.log((new controller()).query("#test").views);
-    console.log((new controller()).query("#test").band(function(d) {
-        console.log(this, d);
-    }));
-    var m = new model();
+    new controller().query("#test").M({
+        type : "get",
+	    url : "index.php",
+	    data : {}
+    })
 
-    var rt = m.ajax({
+
+
+    //var m = new model();
+
+    /*var rt = m.ajax({
         type : "get",
 	    url : "index.php",
 	    data : {},
@@ -33,7 +38,7 @@ window.onload = function() {
         dataType:"json"
     });
 
-    console.log(rt._responseText);
+    console.log(rt._responseText);*/
 
 }
 
