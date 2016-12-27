@@ -55,10 +55,10 @@ controller.prototype.M = function({
                 window.setTimeout(req, 1000);
                 _this.model.ajax({
                     type : type,
-	                url : url,
-	                data : data,
-	                success : function(d) {
-		                for (let o in d) {
+                    url : url,
+                    data : data,
+                    success : function(d) {
+                        for (let o in d) {
                             _this.views.forEach(function (value) {
                                 var tempBand = [...value.querySelectorAll("[band='" + o + "']")];
                                 tempBand.forEach(function(value) {
