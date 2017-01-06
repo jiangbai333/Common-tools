@@ -8,23 +8,31 @@
     background : blue;
 }
 </style>
-<span id="test" band="test">
-    <p id="test-p1" band="a"></p>
-    <p id="test-p2" band="b"></p>
-    <p id="test-p3"></p>
+<span id="test" bind="test">
+    <p id="test-p1" bind="h"></p>
+    <p id="test-p2" bind="m"></p>
+    <p id="test-p3" bind="s"></p>
     <p id="test-p4"></p>
 </span>
 
 <script>
 window.onload = function() {
     //console.log((new controller()).query("#test").views);
-    new controller().query().M({
-        type : "get",
-	    url : "index.php",
-	    data : {}
-    })
+    //new controller().query().M({
+    //    type : "get",
+	//    url : "index.php",
+    //})
 
+    new controller(function(model) {
 
+        function setTime() {
+            var date = new Date();
+            model.h.set(date.getHours());
+            model.m.set(date.getMinutes());
+            model.s.set(date.getSeconds());
+        }
+        setInterval(setTime, 1000);
+    });
 
     //var m = new model();
 

@@ -23,14 +23,25 @@ if (!window.cancelAnimationFrame) {
                                    window.clearTimeout);
 }
 
-window.cRAM = {};
-
-function controller(cName = "c" + +new Date()) {
-    this.id = "c" + +new Date();
-    window.cRAM[cName] = this;
+function controller(callback = undefined) {
     this._views = [];
     this.views = [];
-    this.model = undefined;
+    this.model = new model();
+    this.models = {};
+
+    if ( typeof callback === "function" ) {
+        var _this = this;
+        this.query().views.forEach(function(view) {
+            var bviews = [...document.querySelectorAll("[bind]")];
+            bviews.forEach(function(bview) {
+                var tempModel = bview.getAttribute("bind");
+                _this.models[tempModel]  = _this.models[tempModel] || new model(bview);
+                _this.model.watch[bview.getAttribute("bind")] = bview;
+            });
+        });
+        this.model.watch
+        callback.call(this, this.models);
+    }
 }
 
 controller.prototype.query = function(selector = "body") {
@@ -49,8 +60,6 @@ controller.prototype.M = function({
         if (url === undefined) {
             throw "You must give an url";
         } else {
-            this.model = new model();
-
             (function req(context) {
                 window.setTimeout(req, 1000);
                 _this.model.ajax({
@@ -60,7 +69,7 @@ controller.prototype.M = function({
                     success : function(d) {
                         for (let o in d) {
                             _this.views.forEach(function (value) {
-                                var tempBand = [...value.querySelectorAll("[band='" + o + "']")];
+                                var tempBand = [...value.querySelectorAll("[bind='" + o + "']")];
                                 tempBand.forEach(function(value) {
                                     value.innerHTML = d[o];
                                 });
@@ -77,7 +86,7 @@ controller.prototype.M = function({
     return this;
 }
 
-controller.prototype.band = function(callback) {
+controller.prototype.bind = function(callback) {
     var models = {};
     this.views.forEach(function(d, i) {
         console.log(d, i);    
@@ -87,10 +96,20 @@ controller.prototype.band = function(callback) {
 
 
 
-function model() {
+function model(node = undefined) {
+    this.node = node;
     this._response = undefined;
     this._responseText = "";
-    this._responseDate = undefined; 
+    this._responseDate = undefined;
+    this.watch = {};
+}
+
+model.prototype.set = function(val) {
+    if (typeof val === "function") {
+        val.call(this, this.node);
+    } else {
+        this.node.innerHTML = val;
+    }
 }
 
 model.prototype.getResponseText = function() {
