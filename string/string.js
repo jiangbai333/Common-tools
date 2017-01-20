@@ -140,3 +140,11 @@ String.prototype.engine = function($) {
         });
     })
 }
+
+String.prototype.query = function (selector) {
+    var _DOM = this.valueOf();
+
+    var _div = document.createElement("div");
+    _div.innerHTML = _DOM;
+    return _div.querySelectorAll(selector);
+}
