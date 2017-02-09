@@ -20,7 +20,7 @@
  *      })
  *      console.log(dom);
  */
-String.prototype.query = function (selector = *, callback) {
+String.prototype.query = function (selector = "*", callback) {
     
     var dom = document.createElement("div");
         
