@@ -6,6 +6,40 @@
 `use strict`
 
 /**
+ *      对html字符串按照DOM进行查询操作
+ * @param string selector 选择器
+ * @param function callback 回调函数
+ *      -@param int index  当前dom元素在结果集中的索引
+ *      -@param NodeList selection 通过选择器选择到的结果集
+ * 
+ * @return 针对 html 操作修改后的字符串
+ * @实例 
+ *      var obj = {email:"jiangbai333@gmail.com",name:"b-jiang"}
+ *      var dom = "<div id='test'><span bind='email'></span><span bind='name'></span></div>".query("span", function(index, dom) {
+ *          this.innerHTML = obj[this.getAttribute("bind")];
+ *      })
+ *      console.log(dom);
+ */
+String.prototype.query = function (selector = "*", callback) {
+    
+    var dom = document.createElement("div");
+        
+    dom.innerHTML = this.valueOf();
+    
+    var selection = dom.querySelectorAll(selector);
+
+    if (typeof callback === "function") {
+        [...selection].forEach(function(value, index) {
+            callback.call(value, index, selection);
+        });
+    }
+
+    //return selection.length === 1 ? selection[0] : selection;
+    //return selection;
+    return dom.innerHTML;
+}
+
+/**
  *      url 解构方法
  */
 String.prototype.url = function() {
@@ -139,12 +173,4 @@ String.prototype.engine = function($) {
             }
         });
     })
-}
-
-String.prototype.query = function (selector) {
-    var _DOM = this.valueOf();
-
-    var _div = document.createElement("div");
-    _div.innerHTML = _DOM;
-    return _div.querySelectorAll(selector);
 }
