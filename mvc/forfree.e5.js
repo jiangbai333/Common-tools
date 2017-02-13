@@ -23,13 +23,13 @@ if (!window.cancelAnimationFrame) {
                                    window.clearTimeout);
 }
 
-function controller(callback = undefined) {
+function controller( param = undefined ) {
     this._views = [];
     this.views = [];
     this.model = new model();
     this.models = {};
 
-    if ( typeof callback === "function" ) {
+    if ( this.typeof( param ) === "function" ) {
         var _this = this;
         this.query().views.forEach(function(view) {
             var bviews = [...document.querySelectorAll("[bind]")];
@@ -40,7 +40,9 @@ function controller(callback = undefined) {
             });
         });
         this.model.watch
-        callback.call(this, this.models);
+        param.call(this, this.models);
+    } else if ( this.typeof( param ) === "object" ) {
+        
     }
 }
 
@@ -49,6 +51,14 @@ controller.prototype.query = function(selector = "body") {
     this.views = [...this._views];
     return this;
 }
+
+/**
+ *      返回数据类型
+ */ 
+controller.prototype.typeof = function(param = undefined) {
+    return Object.prototype.toString.call(param ).match(/^\[.* (.*)\]$/)[1].toLowerCase();
+}
+
 
 controller.prototype.M = function({
     type = "GET",
