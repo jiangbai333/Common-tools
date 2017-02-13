@@ -23,7 +23,7 @@ if (!window.cancelAnimationFrame) {
                                    window.clearTimeout);
 }
 
-function controller( param = undefined ) {
+function controller( param = undefined  ) {
     this._views = [];
     this.views = [];
     this.model = new model();
