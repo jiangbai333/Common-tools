@@ -1,29 +1,28 @@
-//window.requestAnimationFrame(drawFrame);
+var controller = function( param = undefined ) {
+    
+    var paramType = this.typeof(param);
 
-if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = (window.webkitRequestAnimationFrame ||   
-                                    window.mozRequestAnimationFrame || 
-                                    window.msRequestAnimationFrame ||
-                                    window.oRequestAnimationFrame ||
-                                    function (callback) {
-                                        return window.setTimeout(callback, 17 /*~ 1000/60*/);
-                                    });
+    if ( paramType === "function" ) {
+    
+    } else if ( paramType  === "" ) {
+    
+    }
+
+    Object.defineProperty(this, val, {
+        get : function(){ return "~~~~" + bValue; },
+        set : function(newValue){ alert(newValue) },
+        enumerable : true,
+        configurable : true}
+    );
+};
+
+controller.prototype.typeof = function( param ) {
+    return Object.prototype.toString.call(param ).match(/^\[.* (.*)\]$/)[1].toLowerCase();
 }
 
-if (!window.cancelAnimationFrame) {
-    window.cancelAnimationFrame = (window.cancelRequestAnimationFrame ||
-                                   window.webkitCancelAnimationFrame || 
-                                   window.webkitCancelRequestAnimationFrame ||
-                                   window.mozCancelAnimationFrame || 
-                                   window.mozCancelRequestAnimationFrame ||
-                                   window.msCancelAnimationFrame || 
-                                   window.msCancelRequestAnimationFrame ||
-                                   window.oCancelAnimationFrame || 
-                                   window.oCancelRequestAnimationFrame ||
-                                   window.clearTimeout);
-}
 
-function controller( param = undefined ) {
+/*
+function controller( param = undefined  ) {
     this._views = [];
     this.views = [];
     this.model = new model();
@@ -50,12 +49,12 @@ controller.prototype.query = function(selector = "body") {
     this._views = document.querySelectorAll(selector);
     this.views = [...this._views];
     return this;
-}
+}*/
 
 /**
  *      返回数据类型
  */ 
-controller.prototype.typeof = function(param = undefined) {
+/*controller.prototype.typeof = function(param = undefined) {
     return Object.prototype.toString.call(param ).match(/^\[.* (.*)\]$/)[1].toLowerCase();
 }
 
@@ -195,4 +194,29 @@ model.prototype.ajax = function({
     }
 
     return _that;
+}*/
+
+//window.requestAnimationFrame(drawFrame);
+
+if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = (window.webkitRequestAnimationFrame ||   
+                                    window.mozRequestAnimationFrame || 
+                                    window.msRequestAnimationFrame ||
+                                    window.oRequestAnimationFrame ||
+                                    function (callback) {
+                                        return window.setTimeout(callback, 17 /*~ 1000/60*/);
+                                    });
+}
+
+if (!window.cancelAnimationFrame) {
+    window.cancelAnimationFrame = (window.cancelRequestAnimationFrame ||
+                                   window.webkitCancelAnimationFrame || 
+                                   window.webkitCancelRequestAnimationFrame ||
+                                   window.mozCancelAnimationFrame || 
+                                   window.mozCancelRequestAnimationFrame ||
+                                   window.msCancelAnimationFrame || 
+                                   window.msCancelRequestAnimationFrame ||
+                                   window.oCancelAnimationFrame || 
+                                   window.oCancelRequestAnimationFrame ||
+                                   window.clearTimeout);
 }
