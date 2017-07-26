@@ -1,4 +1,4 @@
-element.prototype.bindEvent = function(type, handle) {
+Element.prototype.bindEvent = function(type, handle) {
     var _this = this;
     if ( Object.prototype.toString.call(type).match(/^\[.* (.*)\]$/)[1].toLowerCase() === "array" ) {
         type.forEach(function(val) {
@@ -9,7 +9,7 @@ element.prototype.bindEvent = function(type, handle) {
     }
 };
 
-element.prototype.delegateEvent = function(type, tag, handle) {
+Element.prototype.delegateEvent = function(type, tag, handle) {
     var _this = this;
     if ( Object.prototype.toString.call(type).match(/^\[.* (.*)\]$/)[1].toLowerCase() === "array" ) {
         type.forEach(function(val) {
